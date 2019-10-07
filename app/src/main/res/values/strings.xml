@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ZaloSDK Demo</string>
+    <string name="appID">1829577289837795818</string>
+    <string name="zalo_sdk_demo">Zalo SDK Demo</string>
+    <string name="login_with_zalo">Login with Zalo</string>
+    <string name="avatar">avatar</string>
+    <string name="logout">Logout</string>
+</resources>
