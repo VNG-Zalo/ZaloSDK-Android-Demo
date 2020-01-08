@@ -40,18 +40,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
     
     private fun loginZalo() {
-        ZaloSDK.Instance.authenticate(this, LoginVia.APP_OR_WEB, object:
-            OAuthCompleteListener() {
-            override fun onGetOAuthComplete(response: OauthResponse?) {
-                if(TextUtils.isEmpty(response?.oauthCode)) {
-                    onLoginError(response?.errorCode ?: -1, response?.errorMessage ?: "Unknwon error")
-                } else {
-                    onLoginSuccess()
-                }
-            }
-        })
+        ZaloSDK.Instance.authenticate(this, LoginVia.APP_OR_WEB, listener)
     }
-
 
     fun onLoginSuccess() {
         val intent = Intent(this, MainActivity::class.java)
@@ -61,5 +51,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     fun onLoginError(code: Int, message: String) {
         Toast.makeText(this, "[$code] $message", Toast.LENGTH_LONG).show()
+    }
+
+    private val listener = object : OAuthCompleteListener() {
+        override fun onGetOAuthComplete(response: OauthResponse?) {
+            if(TextUtils.isEmpty(response?.oauthCode)) {
+                onLoginError(response?.errorCode ?: -1, response?.errorMessage ?: "Unknown error")
+            } else {
+                onLoginSuccess()
+            }
+        }
+
+        override fun onAuthenError(errorCode: Int, message: String?) {
+            onLoginError(errorCode, message ?: "Unknown error")
+        }
     }
 }
